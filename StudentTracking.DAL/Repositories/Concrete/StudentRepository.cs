@@ -219,7 +219,11 @@ namespace StudentTracking.DAL.Repositories.Concrete
                     if (studentExam != null && !studentEntry.StudentExam.Any(se => se.ExamID == studentExam.ExamID))
                     {
                         studentExam.Exam = exam;
-                        studentEntry.StudentExam.Add(studentExam);
+						if (studentExam.Exam.Date >= Date.Item1 && studentExam.Exam.Date <= Date.Item2)
+						{
+                            studentEntry.StudentExam.Add(studentExam);
+                        }
+                        
                     }
 
                     return studentEntry;

@@ -80,7 +80,7 @@ namespace StudentTracking.UI.Controllers
         public IActionResult FastStudentManagement(string Question, string Description, int StudentId)
         {
 
-            _questionManager.Add(new QuestionInsertVM { StudentID = StudentId, QuestionName = Question, Description = Description, Date = new DateTime(2023,11,29) });
+            _questionManager.Add(new QuestionInsertVM { StudentID = StudentId, QuestionName = Question, Description = Description, Date = DateTime.UtcNow });
 
             return Ok();       
         }
