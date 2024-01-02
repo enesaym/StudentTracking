@@ -2,89 +2,142 @@
 
 
 <div class="flip-card-inner" style=" border-radius: 15px;">
-    <div class="flip-card-front" style=" border-radius: 15px;">
 
-        <div id="flipbutton" class="row">
-            <div id="id3" class="col">
-                <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Haftalık Soru Sayısı">
-                    @Model.Question.Count()
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
 
-                </button>
+            <div id="flipbutton" class="row">
+                <div id="id3" class="col">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Haftalık Soru Sayısı">
+                        @Model.Question.Count()
+
+                    </button>
+                </div>
+                <div class="col" id="studentName">
+                    <p>@Model.FirstName @Model.LastName</p>
+
+                </div>
+                <div id="id4" class="col">
+
+                    <button type="button" class="btn btn-danger" onclick="flipCard(@(Model.ID))">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                    <button id="expandAllBtn" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accordionExample" aria-expanded="false" aria-controls="accordionExample">
+                        <i class="bi bi-caret-down"></i>
+                    </button>
+                </div>
+
             </div>
-            <div class="col" id="studentName">
-                <p>@Model.FirstName @Model.LastName</p>
+
+
+            <br>
+
+            <ul class="list-group accordion-list col-md-12">
+
+                <li class="list-group-item">
+                    <button class="accordion">Sınavlar <i class="bi bi-caret-down"> (@Model.StudentExam.Where(X => X.Exam.StatusID == 201).Count())</i> </button>
+
+                    <div class="panel panel-sinavlar">
+                        @foreach (var item in Model.StudentExam)
+                        {
+                            @if (item.Exam.StatusID == 201)
+                            {
+                                <button id="buttoncustom" class="accordion">
+                                    @item.Exam.Name <i class="bi bi-caret-down"></i>
+                                </button>
+                                <div class="panel">
+                                    <p>@item.Description @item.Score</p>
+                                </div>
+                            }
+
+                        }
+
+
+                    </div>
+
+
+
+                    <button class="accordion">Sorular <i class="bi bi-caret-down">(@Model.Question.Count())</i></button>
+                    <div class="panel panel-sorular">
+                        @foreach (var item in Model.Question)
+                        {
+                            <button class="accordion">@item.QuestionName <i class="bi bi-caret-down"></i></button>
+                            <div class="panel panel-sorular">
+                                <p>@item.Description</p>
+                            </div>
+                        }
+
+                    </div>
+
+
+
+                    <button class="accordion">External Sınavlar <i class="bi bi-caret-down">(@Model.StudentExam.Where(x => x.Exam.StatusID == 202).Count())</i></button>
+                    <div class="panel panel-external-sinavlar">
+                        @foreach (var item in Model.StudentExam)
+                        {
+                            @if (item.Exam.StatusID == 202)
+                            {
+                                <button id="buttoncustom" class="accordion">@item.Exam.Name <i class="bi bi-caret-down"></i></button>
+                                <div class="panel">
+                                    <p>@item.Description @item.Score</p>
+                                </div>
+                            }
+                        }
+
+
+
+                    </div>
+                </li>
+
+            </ul>
+
+
+            <div class="change-content">
+                @for (int j = 1; j <= 5; j++)
+                {
+                    <button class="change-button" onclick="changeContent(@Model.ID, @j)"></button>
+                }
+            </div>
+        </div>
+        <div class="flip-card-back">
+
+            <div id="flipbutton" class="row">
+                <div id="id1" class="col"><p style="color: black">Öğrenci Adı</p></div>
+                <div id="id2" class="col">
+                    <button type="button" class="btn btn-danger" onclick="flipCard(@(Model.ID))">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+
+                </div>
 
             </div>
-            <div id="id4" class="col">
 
-                <button type="button" class="btn btn-danger" onclick="flipCard(@(Model.ID))">
-                    <i class="bi bi-arrow-clockwise"></i>
-                </button>
+            <div class="mb-3">
+                <label style="color:black" for="exampleInputEmail1" class="form-label">Soru</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text"></div>
             </div>
+            <div class="mb-3">
+                <label style="color: black" for="exampleFormControlTextarea1" class="form-label">Açıklama</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Ekle</button>
+
+
 
         </div>
-
-
-        <div class="col-md-12" style="max-height: 200px; overflow-y: auto;">
-
-        </div>
-
-
 
 
     </div>
 
-    <div class="change-content mt-2">
-        @for (int j = 1; j <= 5; j++)
-        {
-            <button class="change-button" onclick="changeContent(@Model.ID, @j)"></button>
-        }
-    </div>
-
-    @*<div class="btn-group shadow-0" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-outline-secondary" data-mdb-color="dark" data-mdb-ripple-init>Sorular</button>
-        <button type="button" class="btn btn-outline-secondary" data-mdb-color="dark" data-mdb-ripple-init>Sınavlar</button>
-    </div>*@
-
-    <div class="flip-card-back">
-
-        <div id="flipbutton" class="row">
-            <div id="id1" class="col"><p style="color: black">Öğrenci Adı</p></div>
-            <div id="id2" class="col">
-                <button type="button" class="btn btn-danger" onclick="flipCard(@(Model.ID))">
-                    <i class="bi bi-arrow-clockwise"></i>
-                </button>
-
-            </div>
-
-        </div>
-
-        <div class="mb-3">
-            <label style="color:black" for="exampleInputEmail1" class="form-label">Soru</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text"></div>
-        </div>
-        <div class="mb-3">
-            <label style="color: black" for="exampleFormControlTextarea1" class="form-label">Açıklama</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Ekle</button>
-
-
-
-    </div>
 
 
 </div>
 
 
 <script>
-    function flipCard(index) {
-        console.log("deneme");
-        var card = document.getElementById('card' + index);
-        card.classList.toggle('flipped');
-    }
+    
 
     $('#addFormContainer'+@Model.ID+' form').submit(function (e) {
         e.preventDefault();

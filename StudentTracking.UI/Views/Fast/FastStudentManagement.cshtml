@@ -216,10 +216,10 @@
 
     @for (int i = 0; i < Model.Count(); i++)
     {
-    <div class="flip-card m-1" id="card@(Model[i].ID)">
-        @await Component.InvokeAsync("Card", Model[i])
-    </div>
-        
+        <div class="flip-card m-1" id="card@(Model[i].ID)">
+            @await Component.InvokeAsync("Card", Model[i])
+        </div>
+
     }
 </div>
 
@@ -291,11 +291,16 @@
 
 
 
+ 
+</script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- ***************************-->
+<script>
     function flipCard(index) {
         var card = document.getElementById('card' + index);
         card.classList.toggle('flipped');
     }
-
     function changeContent(index, day) {
         var card = document.getElementById('card' + index);
         card.classList.remove('flipped'); //kartın donuk olup olmadıgına bakar
@@ -315,5 +320,39 @@
             return new bootstrap.Tooltip(tooltipTriggerEl);
         });
     }
+</script>
+
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    }
+</script>
+
+<script>
+    var isExpanded = false;
+
+    document.getElementById('expandAllBtn').addEventListener('click', function () {
+        var panels = document.querySelectorAll('.panel');
+
+        panels.forEach(function (panel) {
+            if (panel.style.display === 'block') {
+                panel.style.display = 'none';
+            } else {
+                panel.style.display = 'block';
+            }
+        });
+        isExpanded = !isExpanded;
+    });
 </script>
 
