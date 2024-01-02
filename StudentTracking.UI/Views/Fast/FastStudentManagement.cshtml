@@ -222,8 +222,6 @@
 
     }
 </div>
-
-
 <!-- jQuery -->
 <!-- ***************************-->
 
@@ -261,7 +259,6 @@
                             // Handle success (optional)
                             showToast();
                             console.log('Data sent successfully:', data);
-                            flipCard(@Model[i].ID);
                         },
                         error: function (error) {
                             // Handle errors (optional)
@@ -291,13 +288,10 @@
 
 
 
- 
-</script>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<!-- ***************************-->
-<script>
-
+    function flipCard(index) {
+        var card = document.getElementById('card' + index);
+        card.classList.toggle('flipped');
+    }
     function changeContent(index, day) {
         var card = document.getElementById('card' + index);
         card.classList.remove('flipped'); //kartın donuk olup olmadıgına bakar
