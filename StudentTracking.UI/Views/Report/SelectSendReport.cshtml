@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "SelectSendReport";
+}
+
+<h1>SelectSendReport</h1>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form asp-controller="Report" asp-action="SendReport" method="post" id="identifier">
+                <div class="mb-3">
+                    <label for="konuBasligi" class="form-label">Konu Başlığı</label>
+                    <input type="text" class="form-control" id="konuBasligi" name="konuBasligi" required>
+                </div>
+                <div class="mb-3">
+                    <label for="mesajIcerigi" class="form-label">Mesaj İçeriği</label>
+                    <div id="mesajIcerigi" class="quill-editor-default">
+                        <p>Hello World!</p>
+                        <p>Default Message</p>
+                    </div>
+                    <textarea name="mesajIcerigi" style="display:none" id="hiddenArea"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="sinifSecimi" class="form-label">Sınıf Seçimi</label>
+                    <select class="form-select" id="sinifSecimi" name="sinifSecimi" required onchange="updateHaftaSecimi()">
+                        @foreach (var item in (List<ClassSelectVM>)@ViewBag.classes)
+                        {
+                            <option value="@Json.Serialize(item)">@item.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="haftaSecimi" class="form-label">Hafta Seçimi</label>
+                    <select class="form-select" id="haftaSecimi" name="haftaSecimi" required>
+
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary mb-2">Gönder</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#identifier").on("submit", function (e) {
+            // jQuery submit olayını engelle
+            e.preventDefault();
+
+            // Mesaj içeriğini textarea'ya aktar
+            $("#hiddenArea").val($("#mesajIcerigi").html());
+
+            // Formu gönder
+            this.submit();
+        });
+    });
+</script>
+
+
+<script>
+    function updateHaftaSecimi() {
+        var myclass = document.getElementById("sinifSecimi").value;
+        var jsonData = JSON.parse(myclass);
+
+        var haftaSecimiDropdown = document.getElementById("haftaSecimi");
+
+        haftaSecimiDropdown.innerHTML = "";
+
+        if (jsonData && jsonData.startedDate && jsonData.endDate) {
+            var startDate = new Date(jsonData.startedDate);
+            var endDate = new Date(jsonData.endDate);
+
+            var totalWeeks = Math.ceil((endDate - startDate) / (7 * 24 * 60 * 60 * 1000));
+
+            for (var i = 1; i <= totalWeeks; i++) {
+                var option = document.createElement("option");
+                option.value = i;
+                option.text = i + ". Hafta";
+                haftaSecimiDropdown.add(option);
+            }
+        }
+    }
+</script>
