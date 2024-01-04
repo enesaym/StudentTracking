@@ -2,7 +2,7 @@
     ViewData["Title"] = "FastStudentManagement";
 }
 @model List<StudentSelectVM>
-<h1>FastStudentManagement</h1>
+<h1>Sınıf : </h1>
 
 <style>
     <style >
@@ -99,7 +99,7 @@
         background-color: #eee;
         color: #444;
         cursor: pointer;
-        padding: 10px;
+        padding: 5px;
         width: 100%;
         border: solid 1px;
         text-align: left;
@@ -119,6 +119,7 @@
         padding: 0 18px;
         display: none;
         background-color: white;
+  
         overflow: hidden;
     }
 
@@ -128,11 +129,11 @@
         padding: 0;
         margin: 0;
         overflow-y: auto;
-        max-height: 150px; /* İstediğiniz maksimum yüksekliği ayarlayabilirsiniz */
+        height: 190px;
     }
 
     .accordion-item {
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
     .bi-caret-down::before {
@@ -259,6 +260,7 @@
                             // Handle success (optional)
                             showToast();
                             console.log('Data sent successfully:', data);
+                             flipCard(@Model[i].ID); // Kartın ön yüzünü döndürme fonksiyonu
                         },
                         error: function (error) {
                             // Handle errors (optional)
@@ -268,7 +270,7 @@
 
                     $.ajax({
                         type: 'GET',
-                        url: '/Fast/FastStudentGetDetails', // Update with your actual controller and action names
+                        url: '/Fast/FastStudentGetDetails',
                         data: formData,
                         success: function (data) {
                             console.log(data);

@@ -30,11 +30,11 @@
             </div>
 
 
-            <br>
+      
 
-            <ul class="list-group accordion-list col-md-12">
+            <ul class="list-group accordion-list col-md-12" >
 
-                <li class="list-group-item">
+                <li class="list-group-item" style="min-height:190px">
                     <button class="accordion">Sınavlar <i class="bi bi-caret-down"> (@Model.StudentExam.Where(X => X.Exam.StatusID == 201).Count())</i> </button>
 
                     <div class="panel panel-sinavlar">
@@ -54,8 +54,6 @@
 
 
                     </div>
-
-
 
                     <button class="accordion">Sorular <i class="bi bi-caret-down">(@Model.Question.Count())</i></button>
                     <div class="panel panel-sorular">
@@ -92,7 +90,7 @@
             </ul>
 
 
-            <div class="change-content">
+            <div class="change-content" style="margin:5px">
                 @for (int j = 1; j <= 5; j++)
                 {
                     <button class="change-button" onclick="changeContent(@Model.ID, @j)"></button>
