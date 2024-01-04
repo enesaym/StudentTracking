@@ -3,131 +3,186 @@
 
 
 
-    <div class="flip-card-inner">
-        <div class="flip-card-front">
+<div class="flip-card-inner">
+    <div class="flip-card-front">
 
-            <div id="flipbutton" class="row">
-                <div id="id3" class="col">
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Haftalık Soru Sayısı">
-                        @Model.Question.Count()
+        <div id="flipbutton" class="row">
+            <div id="id3" class="col">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title=" Haftalık Soru Sayısı">
+                    @Model.Question.Count()
 
-                    </button>
-                </div>
-                <div class="col" id="studentName">
-                    <p>@Model.FirstName @Model.LastName</p>
-
-                </div>
-                <div id="id4" class="col">
-
-                    <button type="button" class="btn btn-danger" onclick="flipCard(@(Model.ID))">
-                        <i class="bi bi-arrow-clockwise"></i>
-                    </button>
-                    <button id="expandAllBtn" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accordionExample" aria-expanded="false" aria-controls="accordionExample">
-                        <i class="bi bi-caret-down"></i>
-                    </button>
-                </div>
+                </button>
+            </div>
+            <div class="col" id="studentName">
+                <p>@Model.FirstName @Model.LastName</p>
 
             </div>
+            <div id="id4" class="col">
+
+                <button type="button" class="btn btn-danger" onclick="flipCard(@(Model.ID))">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </button>
+                <button id="expandAllBtn" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accordionExample" aria-expanded="false" aria-controls="accordionExample">
+                    <i class="bi bi-caret-down"></i>
+                </button>
+            </div>
+
+        </div>
 
 
-      
 
-            <ul class="list-group accordion-list col-md-12" >
 
-                <li class="list-group-item" style="min-height:190px">
-                    <button class="accordion">Sınavlar <i class="bi bi-caret-down"> (@Model.StudentExam.Where(X => X.Exam.StatusID == 201).Count())</i> </button>
+        <ul class="list-group accordion-list col-md-12">
 
-                    <div class="panel panel-sinavlar">
-                        @foreach (var item in Model.StudentExam)
+            <li class="list-group-item">
+                <button class="accordion">Sınavlar <i class="bi bi-caret-down"> (@Model.StudentExam.Where(X => X.Exam.StatusID == 201).Count())</i> </button>
+
+                <div class="panel panel-sinavlar">
+                    @foreach (var item in Model.StudentExam)
+                    {
+                        @if (item.Exam.StatusID == 201)
                         {
-                            @if (item.Exam.StatusID == 201)
-                            {
-                                <button id="buttoncustom" class="accordion">
-                                    @item.Exam.Name <i class="bi bi-caret-down"></i>
-                                </button>
-                                <div class="panel">
-                                    <p>@item.Description @item.Score</p>
-                                </div>
-                            }
-
-                        }
-
-
-                    </div>
-
-                    <button class="accordion">Sorular <i class="bi bi-caret-down">(@Model.Question.Count())</i></button>
-                    <div class="panel panel-sorular">
-                        @foreach (var item in Model.Question)
-                        {
-                            <button class="accordion">@item.QuestionName <i class="bi bi-caret-down"></i></button>
-                            <div class="panel panel-sorular">
-                                <p>@item.Description</p>
+                            <button id="buttoncustom" class="accordion">
+                                @item.Exam.Name <i class="bi bi-caret-down"></i>
+                            </button>
+                            <div class="panel">
+                                <p>@item.Description @item.Score</p>
                             </div>
                         }
 
-                    </div>
+                    }
 
-
-
-                    <button class="accordion">External Sınavlar <i class="bi bi-caret-down">(@Model.StudentExam.Where(x => x.Exam.StatusID == 202).Count())</i></button>
-                    <div class="panel panel-external-sinavlar">
-                        @foreach (var item in Model.StudentExam)
-                        {
-                            @if (item.Exam.StatusID == 202)
-                            {
-                                <button id="buttoncustom" class="accordion">@item.Exam.Name <i class="bi bi-caret-down"></i></button>
-                                <div class="panel">
-                                    <p>@item.Description @item.Score</p>
-                                </div>
-                            }
-                        }
-
-
-
-                    </div>
-                </li>
-
-            </ul>
-
-
-            <div class="change-content" style="margin:5px">
-                @for (int j = 1; j <= 5; j++)
-                {
-                    <button class="change-button" onclick="changeContent(@Model.ID, @j)"></button>
-                }
-            </div>
-        </div>
-        <div class="flip-card-back">
-
-            <div id="flipbutton" class="row">
-                <div id="id1" class="col"><p style="color: black">Öğrenci Adı</p></div>
-                <div id="id2" class="col">
-                    <button type="button" class="btn btn-danger" onclick="flipCard(@(Model.ID))">
-                        <i class="bi bi-arrow-clockwise"></i>
-                    </button>
 
                 </div>
 
+                <button class="accordion">Sorular <i class="bi bi-caret-down">(@Model.Question.Count())</i></button>
+                <div class="panel panel-sorular">
+                    @foreach (var item in Model.Question)
+                    {
+                        <button class="accordion">@item.QuestionName <i class="bi bi-caret-down"></i></button>
+                        <div class="panel panel-sorular">
+                            <p>@item.Description</p>
+                        </div>
+                    }
+
+                </div>
+
+
+
+                <button class="accordion">External Sınavlar <i class="bi bi-caret-down">(@Model.StudentExam.Where(x => x.Exam.StatusID == 202).Count())</i></button>
+                <div class="panel panel-external-sinavlar">
+                    @foreach (var item in Model.StudentExam)
+                    {
+                        @if (item.Exam.StatusID == 202)
+                        {
+                            <button id="buttoncustom" class="accordion">@item.Exam.Name <i class="bi bi-caret-down"></i></button>
+                            <div class="panel">
+                                <p>@item.Description @item.Score</p>
+                            </div>
+                        }
+                    }
+
+
+
+                </div>
+            </li>
+
+        </ul>
+
+
+        <div class="change-content" style="margin:5px">
+            @for (int j = 1; j <= 5; j++)
+            {
+                <button class="change-button" onclick="changeContent(@Model.ID, @j)"></button>
+            }
+        </div>
+    </div>
+    <div class="flip-card-back">
+
+        <div id="flipbutton" class="row">
+            <div id="id1" class="col"><p style="color: black">Öğrenci Adı</p></div>
+            <div id="id2" class="col">
+                <button type="button" class="btn btn-danger" onclick="flipCard(@(Model.ID))">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </button>
+
             </div>
 
-            <div id="addFormContainer@(Model.ID)">
-                <form>
-                    <div class="mb-3">
-                        <label style="color:black" class="form-label">Soru</label>
-                        <input type="text" class="form-control" id="QuestionTxt@(Model.ID)" required>
-                    </div>
-                    <div class="mb-3">
-                        <label style="color: black" class="form-label">Açıklama</label>
-                        <textarea class="form-control" id="DescriptionTxt@(Model.ID)" rows="3"></textarea>
-                    </div>
+        </div>
 
-                    <button type="submit" class="btn btn-primary">Ekle</button>
-                </form>
+        <div id="addFormContainer@(Model.ID)">
+
+            <div class="mb-3">
+                <label style="color:black" class="form-label">Soru</label>
+                <input type="text" class="form-control" id="QuestionTxt@(Model.ID)" required>
+            </div>
+            <div class="mb-3">
+                <label style="color: black" class="form-label">Açıklama</label>
+                <textarea class="form-control" id="DescriptionTxt@(Model.ID)" rows="3"></textarea>
             </div>
 
+            <button type="submit" class="btn btn-primary" onclick="submitForm(@(Model.ID))">Ekle</button>
 
         </div>
 
 
     </div>
 
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '.accordion', function () {
+            $(this).toggleClass("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+
+.
+    });
+
+</script>
+
+
+<script>
+    function flipCard(index) {
+        var card = document.getElementById('card' + index);
+        card.classList.toggle('flipped');
+    }
+</script>
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    }
+
+    var isExpanded = false;
+
+    document.getElementById('expandAllBtn').addEventListener('click', function () {
+        var panels = document.querySelectorAll('.panel');
+
+        panels.forEach(function (panel) {
+            if (panel.style.display === 'block') {
+                panel.style.display = 'none';
+            } else {
+                panel.style.display = 'block';
+            }
+        });
+        isExpanded = !isExpanded;
+    });
+</script>

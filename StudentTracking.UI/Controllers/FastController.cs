@@ -40,7 +40,7 @@ namespace StudentTracking.UI.Controllers
             var c = _studentManager.GetStudentWithDetailsReport(SelectedClassId, 2);
             CookieOptions options = new CookieOptions
             {
-                Expires = DateTime.Now.AddMinutes(30),
+                Expires = DateTime.Now.AddDays(30),
             };
 
             Response.Cookies.Append("ClassIDCookie", SelectedClassId.ToString(), options);
@@ -80,7 +80,7 @@ namespace StudentTracking.UI.Controllers
         public IActionResult FastStudentManagement(string Question, string Description, int StudentId)
         {
 
-            _questionManager.Add(new QuestionInsertVM { StudentID = StudentId, QuestionName = Question, Description = Description, Date = DateTime.UtcNow });
+            _questionManager.Add(new QuestionInsertVM { StudentID = StudentId, QuestionName = Question, Description = Description, Date = DateTime.Now });
 
             return Ok();       
         }
@@ -88,7 +88,8 @@ namespace StudentTracking.UI.Controllers
         [HttpGet]
         public IActionResult FastStudentGetDetails(int StudentId)
         {
-            return ViewComponent("Card", _studentManager.GetStudentWithDetailsByID(StudentId).Data);
+            var student = _studentManager.GetStudentWithDetailsByID(StudentId).Data;
+            return ViewComponent("Card", student);
         }
 
     }

@@ -5,9 +5,7 @@
 <h1>Sınıf : </h1>
 
 <style>
-    <style >
-
-
+  
     body {
         font-family: Arial, Helvetica, sans-serif;
     }
@@ -42,6 +40,7 @@
         height: 100%;
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
+      /*  pointer-events: auto;*/
     }
 
     .flip-card-front {
@@ -119,7 +118,6 @@
         padding: 0 18px;
         display: none;
         background-color: white;
-  
         overflow: hidden;
     }
 
@@ -229,68 +227,52 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
-    function showToast() {
-        var toast = new bootstrap.Toast(document.getElementById('toastContainer'));
-        toast.show();
+    function submitForm(studentId) {
+        var question = $('#QuestionTxt' + studentId).val();
+        var description = $('#DescriptionTxt' + studentId).val();
+        updateCard(studentId, question, description);
     }
 
-    $(document).ready(function () {
-        // Handle form submission
+    function updateCard(studentId, question, description) {
+        var formData = {
+            Question: question,
+            Description: description,
+            StudentId: studentId
+        };
 
-        @for (int i = 0; i < Model.Count(); i++)
-        {
-            <text>
-                $('#addFormContainer'+@Model[i].ID+' form').submit(function (e) {
-                    e.preventDefault(); // Prevent the form from submitting in the traditional way
+        $.ajax({
+            type: 'POST',
+            url: '/Fast/FastStudentManagement',
+            data: formData,
+            success: function (data) {
+                // Kartın ön yüzünü güncelle
+                $.ajax({
+                    type: 'GET',
+                    url: '/Fast/FastStudentGetDetails',
+                    data: { StudentId: studentId },
+                    success: function (updatedCardHtml) {
 
-                    // Get form data
-                    var formData = {
-                        Question: $('#QuestionTxt'+@(Model[i].ID)).val(),
-                        Description: $('#DescriptionTxt'+@(Model[i].ID)).val(),
-                        StudentId: @Model[i].ID
-                        // Add more data as needed
-                    };
+                        var cardToUpdate = $("#card" + studentId);
 
-                    // Perform AJAX request
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Fast/FastStudentManagement', // Update with your actual controller and action names
-                        data: formData,
-                        success: function (data) {
-                            // Handle success (optional)
-                            showToast();
-                            console.log('Data sent successfully:', data);
-                             flipCard(@Model[i].ID); // Kartın ön yüzünü döndürme fonksiyonu
-                        },
-                        error: function (error) {
-                            // Handle errors (optional)
-                            console.error('Error:', error);
-                        }
-                    });
-
-                    $.ajax({
-                        type: 'GET',
-                        url: '/Fast/FastStudentGetDetails',
-                        data: formData,
-                        success: function (data) {
-                            console.log(data);
-                            // Handle success (optional)
-                            $("#card" + @Model[i].ID).html('');
-                            $("#card" + @Model[i].ID).html(data);
-                        },
-                        error: function (error) {
-                            // Handle errors (optional)
-                            console.error('Error:', error);
-                        }
-                    });
+                        cardToUpdate.html(updatedCardHtml);
+                        flipCard(studentId); // Kartı döndür
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
                 });
-            </text>
-        }
-    });
+            },
+            error: function (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+</script>
 
 
-
-    function flipCard(index) {
+@*<script>
+     function flipCard(index) {
         var card = document.getElementById('card' + index);
         card.classList.toggle('flipped');
     }
@@ -313,8 +295,16 @@
             return new bootstrap.Tooltip(tooltipTriggerEl);
         });
     }
-</script>
+</script>*@
+   
 
+
+<script>
+     function flipCard(index) {
+        var card = document.getElementById('card' + index);
+        card.classList.toggle('flipped');
+    }
+</script>
 <script>
     var acc = document.getElementsByClassName("accordion");
     var i;
@@ -347,3 +337,19 @@
     });
 </script>
 
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '.accordion', function () {
+            $(this).toggleClass("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+
+.
+    });
+
+</script>
