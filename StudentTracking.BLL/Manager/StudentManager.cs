@@ -205,12 +205,12 @@ namespace StudentTracking.BLL.Manager
             }
         }
 
-        public Result<StudentSelectVM> GetStudentWithDetailsByID(int classID)
+        public Result<StudentSelectVM> GetStudentWithDetailsByID(int studentID)
         {
             StudentSelectVM VM = new StudentSelectVM();
             try
             {
-                Student entity = _unitOfWork.StudentRepository.GetStudentWithDetailsByID(classID);
+                Student entity = _unitOfWork.StudentRepository.GetStudentWithDetailsByID(studentID);
 
                 VM = _mapper.Map<Student, StudentSelectVM>(entity);
 
