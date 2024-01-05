@@ -16,6 +16,7 @@ namespace StudentTracking.CORE.Entities
         public string Body { get; set; }
 
         public int? StatusID { get; set; }
+        public int? ClassID { get; set; }
 
         public DateTime? Date { get; set; }
 
@@ -24,6 +25,7 @@ namespace StudentTracking.CORE.Entities
         public string Name { get; set; }
 
         public virtual Status Status { get; set; }
+        public virtual Class Class { get; set; }
 
         public virtual ICollection<StudentExam> StudentExam { get; set; }
     }

@@ -168,7 +168,7 @@ namespace StudentTracking.BLL.Manager
             }
 
         }
-        
+
         public Result<List<StudentSelectVM>> GetStudentWithDetails(int classID)
         {
             List<StudentSelectVM> VM = new List<StudentSelectVM>();
@@ -192,7 +192,7 @@ namespace StudentTracking.BLL.Manager
             List<StudentSelectVM> VM = new List<StudentSelectVM>();
             try
             {
-                List<Student> entity = _unitOfWork.StudentRepository.GetStudentWithDetailsReport(classID,week).ToList();
+                List<Student> entity = _unitOfWork.StudentRepository.GetStudentWithDetailsReport(classID, week).ToList();
 
                 VM = entity.Select(x => _mapper.Map<Student, StudentSelectVM>(x)).ToList();
 
@@ -243,5 +243,24 @@ namespace StudentTracking.BLL.Manager
                 return new Result<List<StudentFullNameVM>> { Success = false, Data = VM, Message = "Bir hata oluştu. Detaylar için logları kontrol edin." };
             }
         }
+        public Result<List<StudentSelectVM>> GetStudentExamsByClassId(int classId)
+        {
+            List<StudentSelectVM> VM = new List<StudentSelectVM>();
+            try
+            {
+                List<Student> entity = _unitOfWork.StudentRepository.GetStudentExamsByClassId(classId).ToList();
+
+                VM = _mapper.Map<List<Student>, List<StudentSelectVM>>(entity);
+
+                return new Result<List<StudentSelectVM>> { Success = true, Data = VM };
+            }
+            catch (Exception ex)
+            {
+                // exception loglama
+                return new Result<List<StudentSelectVM>> { Success = false, Data = VM, Message = "Bir hata oluştu. Detaylar için logları kontrol edin." };
+            }
+        }
+
+        
     }
 }

@@ -24,5 +24,6 @@ namespace StudentTracking.CORE.Entities
         public bool? isActive { get; set; }
 
         public virtual ICollection<Student> Student { get; set; }
+        public virtual ICollection<Exam> Exam { get; set; }
     }
 }

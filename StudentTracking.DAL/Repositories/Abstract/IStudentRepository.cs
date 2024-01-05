@@ -21,5 +21,6 @@ namespace StudentTracking.DAL.Repositories.Abstract
         IEnumerable<Student> GetStudentWithDetailsReport(int classID, int week);
         IEnumerable<Student> GetStudentsWithQuestionsAndExamsByClass(int classID);
         Student GetStudentWithDetailsByID(int studentID);
+        IEnumerable<Student> GetStudentExamsByClassId(int classId);
     }
 }
