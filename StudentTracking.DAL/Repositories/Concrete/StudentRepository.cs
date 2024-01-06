@@ -166,7 +166,7 @@ namespace StudentTracking.DAL.Repositories.Concrete
         {
             var dayOfWeek = (int)date.DayOfWeek;
             var startDate = date.Date.AddDays(-dayOfWeek + 1); // Pazartesi
-            var endDate = startDate.AddDays(5); // Cuma
+            var endDate = startDate.AddDays(6); // Cuma
 
             return (startDate, endDate);
         }
@@ -371,6 +371,42 @@ namespace StudentTracking.DAL.Repositories.Concrete
 
             return Connection.Query<Student>(sqlQuery, parameters, transaction: Transaction);
         }
+
+        public IEnumerable<Student> GetStudentsByProjectWithDetails(int projectID)
+        {
+            var sqlQuery = @"
+        SELECT s.ID, s.FirstName, s.LastName, sp.ProjectID,sp.Score, sp.Description
+        FROM Student s 
+        JOIN StudentProject sp ON sp.StudentID = s.ID 
+        WHERE sp.ProjectID = @ProjectID;
+    ";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@ProjectID", projectID, DbType.Int32);
+
+            var studentDictionary = new Dictionary<int, Student>();
+
+            Connection.Query<Student, StudentProject, Student>(
+                sqlQuery,
+                (student, studentProject) =>
+                {
+                    if (!studentDictionary.TryGetValue(student.ID, out var studentEntry))
+                    {
+                        studentEntry = student;
+                        studentEntry.StudentProject = new List<StudentProject>();
+                        studentDictionary.Add(studentEntry.ID, studentEntry);
+                    }
+                    studentEntry.StudentProject.Add(studentProject);
+                    return studentEntry;
+                },
+                parameters,
+                splitOn: "ProjectID",
+                transaction: Transaction
+            );
+
+            return studentDictionary.Values;
+        }
+
 
         public IEnumerable<Student> GetAllJustFullName()
         {

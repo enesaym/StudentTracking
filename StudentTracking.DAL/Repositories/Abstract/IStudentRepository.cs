@@ -16,6 +16,7 @@ namespace StudentTracking.DAL.Repositories.Abstract
         IEnumerable<Student> GetAll();
         IEnumerable<StudentSelectVM> GetStudentsByClass(int ID);
         IEnumerable<Student> GetStudentsByProject(int ID);
+        IEnumerable<Student> GetStudentsByProjectWithDetails(int projectID);
         IEnumerable<Student> GetAllJustFullName();
         IEnumerable<Student> GetStudentWithDetails(int classID);
         IEnumerable<Student> GetStudentWithDetailsReport(int classID, int week);

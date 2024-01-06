@@ -4,6 +4,7 @@ using StudentTracking.UI.Extensions;
 using StudentTracking.VM.Class;
 using StudentTracking.VM.Project;
 using StudentTracking.VM.Student;
+using StudentTracking.VM.StudentProject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,33 @@ namespace StudentTracking.UI.Controllers
             };
 
             return View(projectInsertVM);
+        }
+
+        [HttpGet]
+        public IActionResult GetProjectsByClassID(int classID)
+        {
+            var projects = _projectManager.GetByClassID(classID).Data;
+
+            return Json(projects);
+        }
+
+        [HttpGet]
+        public IActionResult AddProjectNote()
+        {
+            var classes = _classManager.GetAll().Data;
+
+            ViewBag.classes = classes;
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddProjectNote(StudentProjectInsertVM studentProjectInsertVM)
+        {
+            var vm = studentProjectInsertVM;
+          
+
+            return RedirectToAction("AddProjectNote");
         }
 
         [HttpPost]

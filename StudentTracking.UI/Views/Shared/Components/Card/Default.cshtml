@@ -1,7 +1,8 @@
 ﻿@model StudentSelectVM
 
-
-
+@*<script>
+        activateAccordion()
+    </script>*@
 
 <div class="flip-card-inner">
     <div class="flip-card-front">
@@ -28,9 +29,6 @@
             </div>
 
         </div>
-
-
-
 
         <ul class="list-group accordion-list col-md-12">
 
@@ -89,7 +87,6 @@
 
         </ul>
 
-
         <div class="change-content" style="margin:5px">
             @for (int j = 1; j <= 5; j++)
             {
@@ -128,61 +125,76 @@
 
     </div>
 
-
 </div>
 
-<script>
-    $(document).ready(function () {
-        $(document).on('click', '.accordion', function () {
-            $(this).toggleClass("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.display === "block") {
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
+@*<script>
+        function activateAccordion() {
+            var acc = document.getElementsByClassName("accordion");
+            for (var i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                        panel.style.display = "none";
+                    } else {
+                        panel.style.display = "block";
+                    }
+                });
             }
+        }
+    </script>*@
+
+
+@*<script>
+        function flipCard(index) {
+            var card = document.getElementById('card' + index);
+            card.classList.toggle('flipped');
+
+        }
+    </script>*@
+@*<script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+
+        var isExpanded = false;
+
+        document.getElementById('expandAllBtn').addEventListener('click', function () {
+            var panels = document.querySelectorAll('.panel');
+
+            panels.forEach(function (panel) {
+                if (panel.style.display === 'block') {
+                    panel.style.display = 'none';
+                } else {
+                    panel.style.display = 'block';
+                }
+            });
+            isExpanded = !isExpanded;
+        });
+    </script>*@
+
+@*<script>
+        $(document).ready(function () {
+            $(document).on('click', '.accordion', function () {
+                $(this).toggleClass("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
         });
 
-.
-    });
-
-</script>
-
-
-<script>
-    function flipCard(index) {
-        var card = document.getElementById('card' + index);
-        card.classList.toggle('flipped');
-    }
-</script>
-<script>
-    var acc = document.getElementsByClassName("accordion");
-    var i;
-
-    for (i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.display === "block") {
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
-        });
-    }
-
-    var isExpanded = false;
-
-    document.getElementById('expandAllBtn').addEventListener('click', function () {
-        var panels = document.querySelectorAll('.panel');
-
-        panels.forEach(function (panel) {
-            if (panel.style.display === 'block') {
-                panel.style.display = 'none';
-            } else {
-                panel.style.display = 'block';
-            }
-        });
-        isExpanded = !isExpanded;
-    });
-</script>
+    </script>*@

@@ -12,6 +12,7 @@ namespace StudentTracking.DAL.Repositories.Abstract
         bool Update(Project VM);
         bool HardDelete(int ID);
         bool SoftDelete(int ID);
+        List<Project> GetByClassID(int ClassID);
         Project GetByID(int ID);
         IEnumerable<Project> GetAll();
     }

@@ -23,6 +23,10 @@ namespace StudentTracking.CORE.Entities
 
         public bool? isActive { get; set; }
 
+        public int ClassID { get; set; }
+
+        public Class Class { get; set; }
+
         public virtual ICollection<StudentProject> StudentProject { get; set; }
     }
 }

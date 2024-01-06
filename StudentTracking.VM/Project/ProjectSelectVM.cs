@@ -10,6 +10,7 @@ namespace StudentTracking.VM.Project
         public string Name { get; set; }
         public DateTime StartedDate { get; set; }
         public DateTime EndDate { get; set; }
+        public int ClassID { get; set; }
         public List<string> FullName { get; set; } = new List<string>();
         public bool isFinal { get; set; }
         public bool isActive { get; set; }

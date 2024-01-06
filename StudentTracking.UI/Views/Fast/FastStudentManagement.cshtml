@@ -5,7 +5,7 @@
 <h1>Sınıf : </h1>
 
 <style>
-  
+
     body {
         font-family: Arial, Helvetica, sans-serif;
     }
@@ -40,7 +40,7 @@
         height: 100%;
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
-      /*  pointer-events: auto;*/
+        /*  pointer-events: auto;*/
     }
 
     .flip-card-front {
@@ -256,6 +256,8 @@
 
                         cardToUpdate.html(updatedCardHtml);
                         flipCard(studentId); // Kartı döndür
+
+                       /* activateAccordion();*/
                     },
                     error: function (error) {
                         console.error('Error:', error);
@@ -270,42 +272,89 @@
 
 </script>
 
-
 @*<script>
-     function flipCard(index) {
-        var card = document.getElementById('card' + index);
-        card.classList.toggle('flipped');
-    }
-    function changeContent(index, day) {
-        var card = document.getElementById('card' + index);
-        card.classList.remove('flipped'); //kartın donuk olup olmadıgına bakar
-        var frontContent = document.querySelector('#card' + index + ' .flip-card-front');
-        var changeButtons = document.querySelectorAll('#card' + index + ' .change-button');
-        // Önce tüm düğmelerin içeriğini sıfırlarsss
-        changeButtons.forEach(function (button) {
-            button.classList.remove('filled');
-        });
+    function activateAccordion() {
+        var acc = document.getElementsByClassName("accordion");
+        for (var i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
 
-        // Tıklanan düğmeyi doldurur
-        changeButtons[day - 1].classList.add('filled');
-        //frontContent.innerHTML = ``;
+        //var isExpanded = false;
 
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
-    }
-</script>*@
-   
+        //document.getElementById('expandAllBtn').addEventListener('click', function () {
+        //    var panels = document.querySelectorAll('.panel');
 
-
-<script>
-     function flipCard(index) {
-        var card = document.getElementById('card' + index);
-        card.classList.toggle('flipped');
+        //    panels.forEach(function (panel) {
+        //        if (panel.style.display === 'block') {
+        //            panel.style.display = 'none';
+        //        } else {
+        //            panel.style.display = 'block';
+        //        }
+        //    });
+        //    isExpanded = !isExpanded;
+        //});
     }
 </script>
 <script>
+    activateAccordion();
+</script>*@
+
+
+@*<script>
+         function flipCard(index) {
+            var card = document.getElementById('card' + index);
+            card.classList.toggle('flipped');
+        }
+        function changeContent(index, day) {
+            var card = document.getElementById('card' + index);
+            card.classList.remove('flipped'); //kartın donuk olup olmadıgına bakar
+            var frontContent = document.querySelector('#card' + index + ' .flip-card-front');
+            var changeButtons = document.querySelectorAll('#card' + index + ' .change-button');
+            // Önce tüm düğmelerin içeriğini sıfırlarsss
+            changeButtons.forEach(function (button) {
+                button.classList.remove('filled');
+            });
+
+            // Tıklanan düğmeyi doldurur
+            changeButtons[day - 1].classList.add('filled');
+            //frontContent.innerHTML = ``;
+
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        }
+    </script>*@
+
+
+
+<script>
+    function flipCard(index) {
+        var card = document.getElementById('card' + index);
+        card.classList.toggle('flipped');
+        $(document).ready(function () {
+            $(document).on('click', '.accordion', function () {
+                $(this).toggleClass("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        });
+        /*activateAccordion();*/
+    }
+</script>
+@*<script>
     var acc = document.getElementsByClassName("accordion");
     var i;
 
@@ -335,7 +384,7 @@
         });
         isExpanded = !isExpanded;
     });
-</script>
+</script>*@
 
 <script>
     $(document).ready(function () {
@@ -348,8 +397,6 @@
                 panel.style.display = "block";
             }
         });
-
-.
     });
 
 </script>

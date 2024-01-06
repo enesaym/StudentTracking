@@ -30,7 +30,15 @@ namespace StudentTracking.UI.Controllers
 
             return View();
         }
+        [HttpGet]
+        public IActionResult GetStudentsByProjectID(int projectID)
+        {
+            //viewbaga eklenecek
+            _studentManager.GetAllStudentByProjectWithDetails(projectID);
 
+            return View();
+        }
+        
         [HttpPost]
         public IActionResult AddStudent(StudentInsertVM studentInsertVM)
         {
