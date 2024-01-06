@@ -5,6 +5,7 @@ using StudentTracking.VM.Exam;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 
 namespace StudentTracking.DAL.Repositories.Concrete
@@ -110,6 +111,35 @@ namespace StudentTracking.DAL.Repositories.Concrete
             }, parameters, Transaction);
 
             return (ICollection<Exam>)result;
-        }            
+        }
+        
+        public IEnumerable<Exam> GetExamsByClassId(int classId)
+        {
+            var sqlQuery = @"SELECT * FROM Exam WHERE ClassID=@classId";
+
+            var result = Connection.Query<Exam>(sqlQuery, new { classId }, Transaction);
+
+            return result;
+        }
+
+        public bool AddExamGrades(StudentExam entity)
+        {
+            var sqlQuery = "INSERT INTO StudentExam (StudentID, ExamID, Score, Description) VALUES (@StudentID ,@ExamID, @Score, @Description)";
+
+
+            var rowsAffected = Connection.Execute(sqlQuery, new {entity.StudentID, entity.ExamID, entity.Score, entity.Description}, Transaction);
+
+            return rowsAffected > 0;
+        }
+
+        public bool UpdateExamGrades(StudentExam entity)
+        {
+            var sqlQuery = "UPDATE StudentExam SET Score = @Score, Description = @Description WHERE StudentID = @StudentID AND ExamID = @ExamID";
+
+
+            var rowsAffected = Connection.Execute(sqlQuery, new { entity.StudentID, entity.ExamID, entity.Score, entity.Description }, Transaction);
+
+            return rowsAffected > 0;
+        }
     }
 }

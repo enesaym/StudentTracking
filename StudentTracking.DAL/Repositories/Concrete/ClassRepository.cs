@@ -103,5 +103,10 @@ namespace StudentTracking.DAL.Repositories.Concrete
 
             return Connection.QuerySingleOrDefault<ClassSelectVM>(sqlQuery, parameters, Transaction);
         }
+
+        //public IEnumerable<Class> GetClassesForGrades()
+        //{
+
+        //}
     }
 }

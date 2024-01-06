@@ -52,6 +52,8 @@ namespace StudentTracking.UI
 
             var smtpSettings = Configuration.GetSection("SmtpSettings");
             services.Configure<SmtpSettings>(smtpSettings);
+
+            services.AddSession();
             
         }
 
@@ -67,6 +69,7 @@ namespace StudentTracking.UI
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseRouting();
 

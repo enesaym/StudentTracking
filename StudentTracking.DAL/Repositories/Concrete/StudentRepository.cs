@@ -416,6 +416,38 @@ namespace StudentTracking.DAL.Repositories.Concrete
                 Transaction);
         }
 
+        public IEnumerable<Student> GetStudentExamsByClassId(int classId)
+        {
+            var sqlQuery = @"SELECT s.ID, s.FirstName, s.LastName, s.Email, s.StatusID, s.ClassID, s.isActive,
+                            c.ID,
+                            e.ID,
+                            se.StudentID as ID, se.ExamID, se.Score, se.Description, se.isActive
+                            FROM Student s
+                            JOIN Class c on s.ClassID = c.ID
+                            JOIN Exam e on e.ClassID = c.ID
+                            LEFT JOIN StudentExam se on se.StudentID = s.ID
+                            WHERE s.ClassID = @classId and s.StatusID = 101";
+
+            var students = new Dictionary<int, Student>();
+
+            var result = Connection.Query<Student, Class, Exam, StudentExam, Student>(sqlQuery, (student, classs, exam, studentExam) =>
+            {
+
+                if (!students.TryGetValue(student.ID, out Student studentEntry))
+                {
+                    studentEntry = student;
+
+                    students.Add(student.ID, studentEntry);
+                }
+
+                if (studentExam != null && !studentEntry.StudentExam.Any(x => x.ExamID == studentExam.ExamID))
+                    studentEntry.StudentExam.Add(studentExam);
+
+                return null;
+            }, new { classId }, Transaction, splitOn: "ID");
+
+            return students.Values;
+        }
 
     }
 }

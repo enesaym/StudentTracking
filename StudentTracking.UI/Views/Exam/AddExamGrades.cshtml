@@ -1,0 +1,61 @@
+﻿@model List<ClassSelectVM>
+@{
+    ViewData["Title"] = "AddExamGrades";
+}
+
+<h1>AddExamGrades</h1>
+
+<form asp-controller="Exam" asp-action="AddExamGrades" method="post">
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Sınıf</label>
+        <div class="col-sm-10">
+            <div class="custom-select" style="width:200px;">
+                <select id="classSelect" name="classId" class="form-control">
+                    <option value="">Sınıf Seçiniz</option>
+                    @foreach (var item in Model)
+                    {
+                        <option value="@item.ID">@item.Name</option>
+
+                    }
+
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Sınav</label>
+        <div class="col-sm-10">
+            <div class="custom-select" style="width:200px;">
+                <select id="exams" name="examId" class="form-control">
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Not Ekranına Gir</button>
+</form>
+
+<script>
+    document.getElementById('classSelect').addEventListener('change', function () {
+        var classId = this.value;
+        var examSelect = document.getElementById('exams');
+
+        // Önceki projeleri temizle
+        examSelect.innerHTML = '';
+
+        // AJAX isteği ile seçilen sınıfa ait projeleri getir
+        fetch('/Exam/GetExamsByClass?classId=' + classId)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                data.forEach(exam => {
+                    var option = document.createElement('option');
+                    option.value = exam.id;
+                    option.text = exam.name;
+                    examSelect.add(option);
+                });
+            })
+            .catch(error => console.error('Projeler alınamadı:', error));
+    });
+</script>

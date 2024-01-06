@@ -1,4 +1,5 @@
-﻿using StudentTracking.VM.Status;
+﻿using StudentTracking.VM.Class;
+using StudentTracking.VM.Status;
 using StudentTracking.VM.StudentExam;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace StudentTracking.VM.Exam
         public string Body { get; set; }
 
         public int? StatusID { get; set; }
+        public int? ClassID { get; set; }
 
         public DateTime? Date { get; set; }
 
@@ -22,6 +24,7 @@ namespace StudentTracking.VM.Exam
         public string Name { get; set; }
 
         public virtual StatusSelectVM Status { get; set; }
+        public virtual ClassSelectVM Class { get; set; }
 
         public virtual ICollection<StudentExamSelectVM> StudentExam { get; set; }
     }

@@ -25,6 +25,9 @@ namespace StudentTracking.CORE.Entities
 
         public virtual ICollection<Student> Student { get; set; }
 
+        public virtual ICollection<Exam> Exam { get; set; }
+
         public virtual ICollection<Project> Project { get; set; }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudentTracking.VM.Exam;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,6 +13,7 @@ namespace StudentTracking.VM.Class
         public DateTime StartedDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool isActive { get; set; }
+        public virtual List<ExamSelectVM> Exam { get; set; }
 
     }
 }
