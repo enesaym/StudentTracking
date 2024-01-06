@@ -61,9 +61,11 @@ namespace StudentTracking.UI.Controllers
         public IActionResult AddProjectNote(StudentProjectInsertVM studentProjectInsertVM)
         {
             var vm = studentProjectInsertVM;
-          
-
-            return RedirectToAction("AddProjectNote");
+            _projectManager.AddStudentProject(vm);
+            var classes = _classManager.GetAll().Data;
+            ViewBag.classes = classes;
+   
+            return RedirectToAction("GetStudentsByProjectID", "Student", new { projectId = vm.ProjectID });
         }
 
         [HttpPost]

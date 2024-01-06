@@ -34,11 +34,14 @@ namespace StudentTracking.UI.Controllers
         public IActionResult GetStudentsByProjectID(int projectID)
         {
             //viewbaga eklenecek
-            _studentManager.GetAllStudentByProjectWithDetails(projectID);
+            var projectsDetails=_studentManager.GetAllStudentByProjectWithDetails(projectID).Data;
 
-            return View();
+            return View(projectsDetails);
         }
-        
+
+      
+
+
         [HttpPost]
         public IActionResult AddStudent(StudentInsertVM studentInsertVM)
         {

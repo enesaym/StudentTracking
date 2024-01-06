@@ -36,6 +36,62 @@ namespace StudentTracking.DAL.Repositories.Concrete
 
             return success;
         }
+        public bool AddStudentProject(StudentProject entity)
+        {
+            var sqlQuery = "INSERT INTO StudentProject (StudentID, ProjectID, Score, Description) VALUES (@StudentID, @ProjectID, @Score, @Description)";
+            var success = false;
+
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@StudentID", entity.StudentID, DbType.Int32);
+            parameters.Add("@ProjectID", entity.ProjectID, DbType.Int32);
+            parameters.Add("@Score", entity.Score, DbType.Int32);
+            parameters.Add("@Description", entity.Description, DbType.String);
+
+            var rowsAffected = Connection.Execute(sqlQuery, parameters, Transaction);
+
+            if (rowsAffected > 0)
+            {
+                success = true;
+            }
+
+            return success;
+        }
+        public bool AddOrUpdateStudentProject(StudentProject entity)
+        {
+            var existingRecord = GetStudentProject(entity.StudentID, entity.ProjectID);
+
+            if (existingRecord != null)
+            {
+                // Var olan bir kayıt var, bu yüzden güncelleme yapılacak
+                var sqlQuery = "UPDATE StudentProject SET Score = @Score, Description = @Description WHERE StudentID = @StudentID AND ProjectID = @ProjectID";
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Score", entity.Score, DbType.Int32);
+                parameters.Add("@Description", entity.Description, DbType.String);
+                parameters.Add("@StudentID", entity.StudentID, DbType.Int32);
+                parameters.Add("@ProjectID", entity.ProjectID, DbType.Int32);
+
+                var rowsAffected = Connection.Execute(sqlQuery, parameters, Transaction);
+
+                return rowsAffected > 0;
+            }
+            else
+            {
+                // Kayıt yok, yeni bir kayıt eklenecek
+                return AddStudentProject(entity);
+            }
+        }
+        public StudentProject GetStudentProject(int studentId, int projectId)
+        {
+            var sqlQuery = "SELECT * FROM StudentProject WHERE StudentID = @StudentID AND ProjectID = @ProjectID";
+            var parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentId, DbType.Int32);
+            parameters.Add("@ProjectID", projectId, DbType.Int32);
+
+            return Connection.QueryFirstOrDefault<StudentProject>(sqlQuery, parameters, Transaction);
+        }
+
 
         private bool AddProjectStudent(Project entity)
         {

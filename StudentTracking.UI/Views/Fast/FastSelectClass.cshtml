@@ -1,16 +1,30 @@
 ﻿@model List<ClassSelectVM>
 
-@{
-    ViewData["Title"] = "FastSelectClass";
-}
-
-<<form method="post" asp-action="FastSelectClass">
-    <select name="SelectedClassId">
-        <option value="">-- Sınıf Seç --</option>
-        @foreach (var item in Model)
-        {
-            <option value="@item.ID">@item.Name</option>
-        }
-    </select>
-    <button type="submit">Seç</button>
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+  
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Varsayılan olacak sınıfınızı seçiniz</h1>
+        <form method="post" asp-action="FastSelectClass" class="form-inline">
+            <div class="form-group mr-2">
+                <select class="form-control" name="SelectedClassId">
+                    <option value="">-- Sınıf Seç --</option>
+                    @foreach (var item in Model)
+                    {
+                        <option value="@item.ID">@item.Name</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Seç</button>
+        </form>
+    </div>
+    <br />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

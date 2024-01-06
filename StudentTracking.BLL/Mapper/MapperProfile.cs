@@ -8,6 +8,7 @@ using StudentTracking.VM.Report;
 using StudentTracking.VM.Status;
 using StudentTracking.VM.Student;
 using StudentTracking.VM.StudentExam;
+using StudentTracking.VM.StudentProject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +23,14 @@ namespace StudentTracking.BLL.Mapper
             CreateMap<Student, StudentSelectVM>().ReverseMap();
             CreateMap<Question, QuestionSelectVM>().ReverseMap();
             CreateMap<StudentExam, StudentExamSelectVM>().ReverseMap();
+            CreateMap<StudentProject, StudentProjectSelectVM>().ReverseMap();
+            CreateMap<StudentProject, StudentProjectInsertVM>().ReverseMap();
             CreateMap<Exam, ExamSelectVM>().ReverseMap();
             CreateMap<Status, StatusSelectVM>().ReverseMap();
             CreateMap<Report, ReportSelectVM>().ReverseMap();
             CreateMap<Project, ProjectSelectVM>().ReverseMap();
             CreateMap<Class, ClassSelectVM>().ReverseMap();
+         
 
             CreateMap<Student, StudentUpdateVM>().ReverseMap();
             CreateMap<Question, QuestionUpdateVM>().ReverseMap();

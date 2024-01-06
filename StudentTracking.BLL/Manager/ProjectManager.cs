@@ -7,6 +7,7 @@ using StudentTracking.CORE.Entities;
 using StudentTracking.DAL.UnitOfWork;
 using StudentTracking.VM.Project;
 using System.Linq;
+using StudentTracking.VM.StudentProject;
 
 namespace StudentTracking.BLL.Manager
 {
@@ -38,8 +39,25 @@ namespace StudentTracking.BLL.Manager
                     return new Result<ProjectInsertVM> { Success = false, Data = VM, Message = "Bir hata oluştu. Detaylar için logları kontrol edin." };
                 }
             }
+        public Result<StudentProjectInsertVM> AddStudentProject(StudentProjectInsertVM VM)
+        {
+            try
+            {
+                var entity = _mapper.Map<StudentProjectInsertVM, StudentProject>(VM);
 
-            public Result<ProjectUpdateVM> Update(ProjectUpdateVM VM)
+                bool state = _unitOfWork.ProjectRepository.AddOrUpdateStudentProject(entity);
+
+
+                return new Result<StudentProjectInsertVM> { Success = true, Data = VM };
+            }
+            catch (Exception ex)
+            {
+                // exception loglama
+                return new Result<StudentProjectInsertVM> { Success = false, Data = VM, Message = "Bir hata oluştu. Detaylar için logları kontrol edin." };
+            }
+        }
+
+        public Result<ProjectUpdateVM> Update(ProjectUpdateVM VM)
             {
                 try
                 {

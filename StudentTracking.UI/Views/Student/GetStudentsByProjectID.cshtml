@@ -1,1 +1,89 @@
-﻿
+﻿@model List<StudentSelectVM>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Öğrenci Proje Notları</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Öğrenci Proje Notları</h1>
+
+        @if (Model != null && Model.Any())
+        {
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Öğrenci Adı</th>
+                        <th>Öğrenci Soyadı</th>
+                        <th>Proje Bilgileri</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model)
+                    {
+                        <tr>
+                            <td>@student.FirstName</td>
+                            <td>@student.LastName</td>
+                            <td>
+                                @if (student.StudentProject != null && student.StudentProject.Any())
+                                {
+                                    <form method="post" action="/Project/AddProjectNote">
+                                        <input type="hidden" name="projectId" value="@student.StudentProject.First().ProjectID" />
+                                        <input type="hidden" name="studentId" value="@student.ID" />
+                                        <div class="form-row align-items-center">
+                                            <div class="col-auto">
+                                                <label for="score" class="sr-only">Score:</label>
+                                                @if (student.StudentProject != null && student.StudentProject.Any())
+                                                {
+                                                    <input type="number" class="form-control mb-2" id="score" name="score" value="@student.StudentProject.First().Score" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="number" class="form-control mb-2" id="score" name="score" placeholder="Score girilmedi" />
+                                                }
+                                                <small class="form-text text-muted">Öğrencinin proje notu</small>
+                                            </div>
+                                            <div class="col-auto">
+                                                <label for="description" class="sr-only">Description:</label>
+                                                @if (!string.IsNullOrEmpty(student.StudentProject.First().Description))
+                                                {
+                                                    <input type="text" class="form-control mb-2" id="description" name="description" value="@student.StudentProject.First().Description" />
+
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" class="form-control mb-2" id="description" name="description" placeholder="Degerlendirme girilmedi" />
+                                                }
+                                                <small class="form-text text-muted">Öğrencinin proje değerlendirmesi</small>
+                                            </div>
+
+                                            <div class="col-auto">
+                                                <button type="submit" class="btn btn-primary mb-2">Kaydet</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span>No project information available.</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>Veri bulunamadı veya bir hata oluştu.</p>
+        }
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
