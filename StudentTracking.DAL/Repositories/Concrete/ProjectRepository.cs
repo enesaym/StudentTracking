@@ -107,6 +107,18 @@ namespace StudentTracking.DAL.Repositories.Concrete
             return Connection.QuerySingleOrDefault<Project>(sqlQuery, parameters, Transaction);
         }
 
+        public List<Project> GetByClassID(int ClassID)
+        {
+            var sqlQuery = "SELECT * FROM Project WHERE ClassID = @ID";
+
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@ID", ClassID, DbType.Int32);
+
+            return Connection.Query<Project>(sqlQuery, parameters, Transaction).ToList();
+        }
+
+
         public bool HardDelete(int ID)
         {
             var sqlQuery = "DELETE FROM Project WHERE ID = @ID";

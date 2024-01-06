@@ -102,7 +102,28 @@ namespace StudentTracking.BLL.Manager
                 }
             }
 
-            public Result<List<ProjectSelectVM>> GetAll()
+        public Result<List<ProjectSelectVM>> GetByClassID(int ClassID)
+        {
+            List<ProjectSelectVM> VM = new List<ProjectSelectVM>(); ;
+            try
+            {
+                List<Project> entity = _unitOfWork.ProjectRepository.GetByClassID(ClassID);
+                entity.ForEach(x =>
+                {
+                    VM.Add(_mapper.Map<Project, ProjectSelectVM>(x));
+                });
+
+
+                return new Result<List<ProjectSelectVM>> { Success = true, Data = VM };
+            }
+            catch (Exception ex)
+            {
+                // exception loglama
+                return new Result<List<ProjectSelectVM>> { Success = false, Data = VM, Message = "Bir hata oluştu. Detaylar için logları kontrol edin." };
+            }
+        }
+
+        public Result<List<ProjectSelectVM>> GetAll()
             {
                 List<ProjectSelectVM> VM = new List<ProjectSelectVM>();
                 try

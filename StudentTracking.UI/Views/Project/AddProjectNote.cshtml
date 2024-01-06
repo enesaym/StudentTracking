@@ -1,0 +1,54 @@
+﻿@* Sınıf Seç Dropdown *@
+
+<div class="form-group">
+    <label for="classSelect">Sınıf Seç:</label>
+    <select id="classSelect" name="ClassId" class="form-control">
+        <option value="">-- Sınıf Seçin --</option>
+        @foreach (var classItem in ViewBag.classes as List<ClassSelectVM>)
+        {
+            <option value="@classItem.ID">@classItem.Name</option>
+        }
+    </select>
+</div>
+
+@* Sınıfa ait Projeler Dropdown *@
+
+<div class="form-group">
+    <label for="projectSelect">Sınıfa Ait Projeler:</label>
+    <select id="projectSelect" name="ProjectId" class="form-control">
+        <!-- Seçilen sınıfa göre projeler burada listelenecek -->
+    </select>
+</div>
+<br>
+<button id="getStudentsBtn" class="btn btn-primary">Öğrencileri Getir</button>
+<!-- JavaScript ile ikinci dropdown'u dinamik olarak doldurma -->
+<script>
+    document.getElementById('classSelect').addEventListener('change', function () {
+        var classId = this.value;
+        var projectSelect = document.getElementById('projectSelect');
+
+        // Önceki projeleri temizle
+        projectSelect.innerHTML = '';
+
+        // AJAX isteği ile seçilen sınıfa ait projeleri getir
+        fetch(`/Project/GetProjectsByClassID?classID=${classId}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(project => {
+                    var option = document.createElement('option');
+                    console.log('ID:', project.Id, 'Name:', project.Name); // Kontrol için log
+                    option.value = project.id;
+                    option.text = project.name;
+                    projectSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Projeler alınamadı:', error));
+    });
+    // Butona tıklama olayı
+    document.getElementById('getStudentsBtn').addEventListener('click', function () {
+        var projectId = document.getElementById('projectSelect').value;
+
+        // Belirli bir proje ID'sine göre öğrencilerin olduğu sayfaya yönlendirme
+        window.location.href = `/Student/GetStudentsByProjectID?projectId=${projectId}`;
+    });
+</script>
