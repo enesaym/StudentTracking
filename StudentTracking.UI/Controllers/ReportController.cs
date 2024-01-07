@@ -156,8 +156,14 @@ namespace StudentTracking.UI.Controllers
             {
                 worksheet.Cells[4+i, 2].Value = i;
                 worksheet.Cells[4+i, 3].Value = students[i-1].FirstName + " " + students[i-1].LastName;
-                worksheet.Cells[4 + i, 4].Value = students[i-1].Report.Select(x => x.Score);
-                worksheet.Cells[4 + i, 4].Value = students[i-1].Report.Select(x => x.Description);
+                worksheet.Cells[4 + i, 4].Value = students[i-1].Report.Select(x => x.Score).FirstOrDefault();
+                worksheet.Cells[4 + i, 5].Value = students[i-1].Report.Select(x => x.Description).FirstOrDefault();
+    //            for (int j; j = 0; j++ ; var item in students[i - 1].StudentExam)
+				//{
+    //                worksheet.Cells[4 + i, 6+j].Value = item.Score;
+    //            }
+               
+                worksheet.Cells[4 + i, 5].Value = students[i - 1].Report.Select(x => x.Description).FirstOrDefault();
             }
        
             worksheet.Cells["D3:E3"].Merge = true;

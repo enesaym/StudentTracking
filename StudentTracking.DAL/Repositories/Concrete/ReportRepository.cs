@@ -17,6 +17,13 @@ namespace StudentTracking.DAL.Repositories.Concrete
         {
         }
 
+
+        public (DateTime, DateTime) GetWeekStartEndDateByClass(DateTime classStartDate, int week)
+        {
+            //sınıfın baslangic tarihinden itibaren verilen haftanın pazartesi cumasını verir
+            var date = GetWeekStartEndDate(classStartDate.AddDays(7 * (week - 1)));
+            return (date.Item1, date.Item2);
+        }
         public bool Add(Report entity)
         {
             var sqlQuery = "INSERT INTO Report (StudentID, Description, Score, Date, WeekOfYear) VALUES (@StudentID, @Description, @Score, @Date, @WeekOfYear)";
@@ -26,13 +33,25 @@ namespace StudentTracking.DAL.Repositories.Concrete
             parameters.Add("@StudentID", entity.StudentID, DbType.Int32);
             parameters.Add("@Description", entity.Description, DbType.String);
             parameters.Add("@Score", entity.Score, DbType.Int32);
-            parameters.Add("@Date", entity.Date, DbType.DateTime);
+            var classStartDate = GetClassStartDateByStudentID(entity.StudentID.Value);
+            var dateStart= GetWeekStartEndDateByClass(classStartDate.StartedDate.Value,entity.WeekOfYear.Value);
+            parameters.Add("@Date", dateStart.Item1.AddHours(1), DbType.DateTime);
             parameters.Add("@WeekOfYear", entity.WeekOfYear, DbType.Int32);
 
             var rowsAffected = Connection.Execute(sqlQuery, parameters, Transaction);
 
             return rowsAffected > 0;
         }
+
+        public Class GetClassStartDateByStudentID(int studentID)
+		{
+            var sqlQuery = "SELECT c.StartedDate FROM Student s join Class c on c.ID=s.ClassID where s.ID=@StudentID";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentID, DbType.Int32);
+
+            return Connection.Query<Class>(sqlQuery, parameters, Transaction).FirstOrDefault();    
+		}
 
         public IEnumerable<Report> GetAll()
         {

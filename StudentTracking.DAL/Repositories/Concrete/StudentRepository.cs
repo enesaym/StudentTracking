@@ -164,12 +164,13 @@ namespace StudentTracking.DAL.Repositories.Concrete
 
         public (DateTime, DateTime) GetWeekStartEndDate(DateTime date)
         {
-            var dayOfWeek = (int)date.DayOfWeek;
-            var startDate = date.Date.AddDays(-dayOfWeek + 1); // Pazartesi
-            var endDate = startDate.AddDays(6); // Cuma
+            var dayOfWeek = (int)date.DayOfWeek == 0 ? 7 : (int)date.DayOfWeek;
+            //var dayOfWeek = (int)date.DayOfWeek;
+			var startDate = date.Date.AddDays(-dayOfWeek ); // Pazartesi
+			var endDate = startDate.AddDays(6); // Cuma
 
-            return (startDate, endDate);
-        }
+			return (startDate, endDate);
+		}
 
         public (DateTime, DateTime) GetWeekStartEndDateByClass(DateTime classStartDate, int week)
         {
@@ -278,13 +279,18 @@ namespace StudentTracking.DAL.Repositories.Concrete
                         studentEntry.Question.Add(question);
                     }
 
-                    if (studentExam != null && report.Date >= Date.Item1 && report.Date <= Date.Item2 && !studentEntry.StudentExam.Any(se => se.ExamID == studentExam.ExamID))
+                    if (studentExam != null && !studentEntry.StudentExam.Any(se => se.ExamID == studentExam.ExamID))
                     {
                         studentExam.Exam = exam;
-                        studentEntry.StudentExam.Add(studentExam);
+                        if (studentExam.Exam.Date >= Date.Item1 && studentExam.Exam.Date <= Date.Item2)
+                        {
+                            studentEntry.StudentExam.Add(studentExam);
+                        }
+
+
                     }
 
-                    if(report !=null && report.Date >= Date.Item1 && report.Date <= Date.Item2 && !studentEntry.Report.Any(r=> r.ID == report.ID))
+                    if (report !=null && report.Date >= Date.Item1 && report.Date <= Date.Item2 && !studentEntry.Report.Any(r=> r.ID == report.ID))
                     {
                         studentEntry.Report.Add(report);
                     }
